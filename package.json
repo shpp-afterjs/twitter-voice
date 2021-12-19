@@ -1,0 +1,16 @@
+{
+  "name": "untitled14",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc app.ts --esModuleInterop"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^17.0.0",
+    "fastify": "^3.25.0"
+  }
+}
