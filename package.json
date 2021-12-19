@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc app.ts --esModuleInterop"
+    "start": "npx ts-node .\app.ts"
   },
   "keywords": [],
   "author": "",
