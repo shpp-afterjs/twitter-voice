@@ -1,5 +1,5 @@
 {
-  "name": "voicetwitter-backend",
+  "name": "untitled14",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "fastify": "^3.25.0",
+    "ts-node": "^10.4.0"
+  },
+  "devDependencies": {
     "@types/node": "^17.0.0",
-    "fastify": "^3.25.0"
+    "tslib": "^2.3.1"
   }
 }
