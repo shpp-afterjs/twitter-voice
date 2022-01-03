@@ -1,10 +1,8 @@
 import {Test} from "../controllers/test.controller";
+import {FastifyInstance, FastifyServerOptions} from "fastify";
 
-export async function routes (fastify, options) {
-    fastify.get('/test', async (req: any, res: any) => {
-        await Test(req, res)
-    })
+export async function routes (fastify: FastifyInstance, options: FastifyServerOptions) {
+    fastify.post('/test', Test)
 
     //there can be more routes
 }
-
