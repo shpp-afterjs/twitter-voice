@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node app.ts"
+    "start:dev": "npx nodemon app.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "fastify": "^3.25.0",
+    "nodemon": "^2.0.15",
     "ts-node": "^10.4.0"
   },
   "devDependencies": {
