@@ -1,3 +1,5 @@
+*.js
+.idea/
 .env
 node_modules
 *.js
