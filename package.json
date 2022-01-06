@@ -4,8 +4,8 @@
    "description": "",
    "main": "index.js",
    "scripts": {
-    "start:dev": "npx nodemon src/app.ts"
-  },
+      "start:dev": "npx nodemon src/app.ts"
+   },
    "keywords": [],
    "author": "",
    "license": "ISC",
