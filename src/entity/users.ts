@@ -1,4 +1,11 @@
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, PrimaryColumn} from "typeorm";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    BaseEntity,
+    CreateDateColumn,
+    UpdateDateColumn
+} from "typeorm";
 
 @Entity('users')
 export class Users extends BaseEntity {
@@ -26,14 +33,9 @@ export class Users extends BaseEntity {
     @Column()
     ip: string;
 
-    @Column()
-    dateLastAdd: string;
-
-    @Column()
+    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
     dateLastUpdate: string;
 
-    @Column()
+    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
     dateCreateAccount: string;
-
-
 }
