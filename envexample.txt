@@ -1,0 +1,4 @@
+HOST_DB=your host
+USERNAME_DB=your username
+PASSWORD_DB=your password
+NAME_DB=your db name
