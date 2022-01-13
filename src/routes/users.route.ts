@@ -1,11 +1,9 @@
-import {Test} from "../controllers/test.controller";
+import {CreateUser} from "../controllers/users.controller";
 import {FastifyInstance, FastifyServerOptions} from "fastify";
 
 export async function routes (fastify: FastifyInstance, options: FastifyServerOptions) {
 
-    fastify.get('/test', Test)
-
-    fastify.post('/test', Test)
+    fastify.post('/create', CreateUser)
 
     //there can be more routes
 }

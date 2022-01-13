@@ -6,7 +6,7 @@ import crypto from 'crypto'
 import { requestValidator } from "../validators/request";
 import { validate } from "class-validator";
 
-export async function Test(req: FastifyRequest, res: FastifyReply) {
+export async function CreateUser(req: FastifyRequest, res: FastifyReply) {
     const random = Math.floor(Math.random() * 1000000000) //this is for test
 
     const salt = crypto.randomBytes(16).toString('hex')
@@ -38,6 +38,8 @@ export async function Test(req: FastifyRequest, res: FastifyReply) {
     return {
         name: user.name,
         lastname: user.lastname,
-        // тут можно вернуть ещё больше параметров
+        gender: user.gender,
+        birthday: user.birthday,
+        email: user.email,
     }
 }
