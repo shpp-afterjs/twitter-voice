@@ -8,7 +8,6 @@ import {routes} from "./routes/users.route";
 import {db} from "./config/db.connection";
 
 server.register(routes, { prefix: '/users' })
-
 db().then(() => {
     server.listen(3000);
 })
