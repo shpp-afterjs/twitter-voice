@@ -1,7 +1,7 @@
 import {
     Length,
     IsNotEmpty,
-    NotContains, IsString, IsDate, IsEmail, Contains,
+    NotContains, IsString, IsDate, IsEmail, Contains, IsNumber,
 } from 'class-validator';
 
 export class userValidator {
@@ -42,4 +42,10 @@ export class userValidator {
     @IsNotEmpty()
     @IsString()
     ip: string
+}
+
+export class getOneUserRequestValidator {
+    @IsNotEmpty()
+    @IsNumber()
+    userId: number
 }
