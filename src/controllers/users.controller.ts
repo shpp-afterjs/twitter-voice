@@ -6,7 +6,7 @@ import crypto from 'crypto'
 import { userValidator, getOneUserRequestValidator } from "../validators/user";
 import { validate } from "class-validator";
 
-export async function CreateUser(req: FastifyRequest, res: FastifyReply) {
+export async function createUser(req: FastifyRequest, res: FastifyReply) {
     const random = Math.floor(Math.random() * 1000000000) //this is for test
     const RequestBody = req.body as userValidator
 
@@ -87,4 +87,35 @@ export async function getUser(req: FastifyRequest, res: FastifyReply) {
         }
     }
     return user;
+}
+
+export async function deleteUser(req: FastifyRequest, res: FastifyReply) {
+    const data: Repository<Users> = await getRepository(Users)
+    const RequestId: number = Number((req.params as getOneUserRequestValidator).userId)
+
+    let request = new getOneUserRequestValidator()
+    request.userId = RequestId
+
+    const validation = await validate(request)
+    if(validation.length > 0) {
+        res.status(400)
+        return {
+            ok: 'false',
+            errors: validation
+        }
+    }
+
+    let user = await data.delete({
+        id: request.userId
+    })
+
+    if(!user) {
+        res.status(404)
+        return {
+            err: '404 Not found'
+        }
+    }
+    return {
+        ok: true
+    };
 }
