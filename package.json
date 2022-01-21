@@ -1,21 +1,28 @@
 {
-  "name": "voicetwitter-backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start:dev": "npx nodemon app.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "fastify": "^3.25.0",
-    "nodemon": "^2.0.15",
-    "ts-node": "^10.4.0"
-  },
-  "devDependencies": {
-    "@types/node": "^17.0.0",
-    "tslib": "^2.3.1"
-  }
+   "name": "voicetwitter-backend",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "start:dev": "npx nodemon src/app.ts"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "dependencies": {
+      "@types/dotenv": "^8.2.0",
+      "dotenv": "^10.0.0",
+      "fastify": "^3.25.3",
+      "pg": "^8.4.0",
+      "reflect-metadata": "^0.1.13",
+      "typeorm": "0.2.41",
+      "nodemon": "^2.0.15"
+   },
+   "devDependencies": {
+      "@types/node": "^8.10.66",
+      "ts-node": "^3.3.0",
+      "ts-node-dev": "^1.1.8",
+      "tslib": "^2.3.1",
+      "typescript": "^3.9.10"
+   }
 }
