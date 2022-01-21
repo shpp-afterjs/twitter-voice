@@ -1,11 +1,10 @@
-import {Test} from "../controllers/test.controller";
-import {FastifyInstance, FastifyServerOptions} from "fastify";
+import { FastifyInstance, FastifyServerOptions } from 'fastify';
+import { Test } from '../controllers/test.controller';
 
-export async function routes (fastify: FastifyInstance, options: FastifyServerOptions) {
+export async function routes(fastify: FastifyInstance, options: FastifyServerOptions) {
+  fastify.get('/test', Test);
 
-    fastify.get('/test', Test)
+  fastify.post('/test', Test);
 
-    fastify.post('/test', Test)
-
-    //there can be more routes
+  // there can be more routes
 }
