@@ -12,28 +12,28 @@ export class Users extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column("varchar", {length: 255})
     name: string;
 
-    @Column()
+    @Column("varchar", {length: 255})
     lastname: string;
 
-    @Column()
+    @Column("varchar", {length: 6})
     gender: "male" | "female";
 
-    @Column()
+    @Column("varchar", {length: 200})
     birthday: string;
 
-    @Column()
+    @Column("varchar", {length: 200})
     email: string;
 
-    @Column()
+    @Column("text")
     password: string;
 
-    @Column()
+    @Column("varchar", {length: 200})
     salt: string;
 
-    @Column()
+    @Column("varchar", {length: 15})
     ip: string;
 
     @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
