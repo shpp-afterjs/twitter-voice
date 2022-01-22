@@ -7,49 +7,47 @@ import { userValidator, getOneUserRequestValidator } from "../validators/user";
 import { validate } from "class-validator";
 
 export async function createUser(req: FastifyRequest, res: FastifyReply) {
-    const random = Math.floor(Math.random() * 1000000000) //this is for test
-    const RequestBody = req.body as userValidator
+    const requestBody = req.body as userValidator
 
     const salt: string = crypto.randomBytes(16).toString('hex')
 
-    let request = new userValidator()
-    request.name = RequestBody.name
-    request.lastname = RequestBody.lastname
-    request.gender = RequestBody.gender
-    request.birthday = RequestBody.birthday
-    request.email = RequestBody.email
-    request.password = RequestBody.password
-    request.salt = salt
-    request.ip = RequestBody.ip
+    let user = new userValidator()
+    user.name = requestBody.name
+    user.lastname = requestBody.lastname
+    user.gender = requestBody.gender
+    user.birthday = requestBody.birthday
+    user.email = requestBody.email
+    user.password = requestBody.password
+    user.salt = salt
+    user.ip = requestBody.ip
 
-    const validation = await validate(request)
+    const validation = await validate(user)
     if(validation.length > 0) {
-        res.status(400)
-        return {
+        res.status(400).send({
             ok: 'false',
             errors: validation
-        }
+        });
     }
 
-    const passwordHash = crypto.pbkdf2Sync(request.password, salt, 1000, 60, 'sha512').toString('hex')
+    const passwordHash = crypto.pbkdf2Sync(user.password, salt, 1000, 60, 'sha512').toString('hex')
 
-    const user = await getRepository(Users).save({
-        name: request.name,
-        lastname: request.lastname,
-        gender: request.gender,
-        birthday: request.birthday,
-        email: request.email,
-        password: passwordHash,
-        salt: salt,
-        ip: request.ip,
-    });
-
-    return {
+    const request = await getRepository(Users).save({
         name: user.name,
         lastname: user.lastname,
         gender: user.gender,
         birthday: user.birthday,
         email: user.email,
+        password: passwordHash,
+        salt: salt,
+        ip: user.ip,
+    });
+
+    return {
+        name: request.name,
+        lastname: request.lastname,
+        gender: request.gender,
+        birthday: request.birthday,
+        email: request.email,
     }
 }
 
@@ -67,11 +65,10 @@ export async function getUser(req: FastifyRequest, res: FastifyReply) {
 
     const validation = await validate(request)
     if(validation.length > 0) {
-        res.status(400)
-        return {
+        res.status(400).send({
             ok: 'false',
             errors: validation
-        }
+        });
     }
 
     let user = await data.findOne({
@@ -81,10 +78,10 @@ export async function getUser(req: FastifyRequest, res: FastifyReply) {
     })
 
     if(!user) {
-        res.status(404)
-        return {
-            err: '404 Not found'
-        }
+        res.status(404).send({
+            ok: 'false',
+            errors: validation
+        })
     }
     return user;
 }
@@ -98,11 +95,10 @@ export async function deleteUser(req: FastifyRequest, res: FastifyReply) {
 
     const validation = await validate(request)
     if(validation.length > 0) {
-        res.status(400)
-        return {
+        res.status(400).send({
             ok: 'false',
             errors: validation
-        }
+        });
     }
 
     let user = await data.delete({
@@ -110,14 +106,13 @@ export async function deleteUser(req: FastifyRequest, res: FastifyReply) {
     })
 
     if(!user) {
-        res.status(404)
-        return {
-            err: '404 Not found'
-        }
+        res.status(404).send({
+            ok: 'false',
+            errors: validation
+        })
     }
-    return {
-        ok: true
-    };
+
+    return res.status(200).send({"ok": true});
 }
 
 export async function updateUser(req: FastifyRequest, res: FastifyReply) {
@@ -127,47 +122,46 @@ export async function updateUser(req: FastifyRequest, res: FastifyReply) {
 
     const salt: string = crypto.randomBytes(16).toString('hex')
 
-    let request = new userValidator()
-    request.name = RequestBody.name
-    request.lastname = RequestBody.lastname
-    request.gender = RequestBody.gender
-    request.birthday = RequestBody.birthday
-    request.email = RequestBody.email
-    request.password = RequestBody.password
-    request.salt = salt
-    request.ip = RequestBody.ip
+    let user = new userValidator()
+    user.name = RequestBody.name
+    user.lastname = RequestBody.lastname
+    user.gender = RequestBody.gender
+    user.birthday = RequestBody.birthday
+    user.email = RequestBody.email
+    user.password = RequestBody.password
+    user.salt = salt
+    user.ip = RequestBody.ip
 
-    const validation = await validate(request)
+    const validation = await validate(user)
     if(validation.length > 0) {
-        res.status(400)
-        return {
+        res.status(400).send({
             ok: 'false',
             errors: validation
-        }
+        });
     }
 
-    const passwordHash = crypto.pbkdf2Sync(request.password, salt, 1000, 60, 'sha512').toString('hex')
+    const passwordHash = crypto.pbkdf2Sync(user.password, salt, 1000, 60, 'sha512').toString('hex')
 
-    const user = getRepository(Users).update(
+    const request = getRepository(Users).update(
         RequestId ,
         {
-            name: request.name,
-            lastname: request.lastname,
-            gender: request.gender,
-            birthday: request.birthday,
-            email: request.email,
+            name: user.name,
+            lastname: user.lastname,
+            gender: user.gender,
+            birthday: user.birthday,
+            email: user.email,
             password: passwordHash,
             salt: salt,
-            ip: request.ip,
+            ip: user.ip,
         }
     );
 
     return {
-        name: request.name,
-        lastname: request.lastname,
-        gender: request.gender,
-        birthday: request.birthday,
-        email: request.email,
+        name: user.name,
+        lastname: user.lastname,
+        gender: user.gender,
+        birthday: user.birthday,
+        email: user.email,
     }
 
 }
