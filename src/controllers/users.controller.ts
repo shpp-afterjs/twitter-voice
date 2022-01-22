@@ -119,3 +119,55 @@ export async function deleteUser(req: FastifyRequest, res: FastifyReply) {
         ok: true
     };
 }
+
+export async function updateUser(req: FastifyRequest, res: FastifyReply) {
+    const RequestBody = req.body as userValidator
+
+    const RequestId: number = Number((req.params as getOneUserRequestValidator).userId)
+
+    const salt: string = crypto.randomBytes(16).toString('hex')
+
+    let request = new userValidator()
+    request.name = RequestBody.name
+    request.lastname = RequestBody.lastname
+    request.gender = RequestBody.gender
+    request.birthday = RequestBody.birthday
+    request.email = RequestBody.email
+    request.password = RequestBody.password
+    request.salt = salt
+    request.ip = RequestBody.ip
+
+    const validation = await validate(request)
+    if(validation.length > 0) {
+        res.status(400)
+        return {
+            ok: 'false',
+            errors: validation
+        }
+    }
+
+    const passwordHash = crypto.pbkdf2Sync(request.password, salt, 1000, 60, 'sha512').toString('hex')
+
+    const user = getRepository(Users).update(
+        RequestId ,
+        {
+            name: request.name,
+            lastname: request.lastname,
+            gender: request.gender,
+            birthday: request.birthday,
+            email: request.email,
+            password: passwordHash,
+            salt: salt,
+            ip: request.ip,
+        }
+    );
+
+    return {
+        name: request.name,
+        lastname: request.lastname,
+        gender: request.gender,
+        birthday: request.birthday,
+        email: request.email,
+    }
+
+}
