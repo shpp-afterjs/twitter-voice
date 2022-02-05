@@ -37,8 +37,8 @@ export class Users extends BaseEntity {
     ip: string;
 
     @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
-    dateLastUpdate: string;
+    updatedAt: string;
 
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
-    dateCreateAccount: string;
+    createdAt: string;
 }
