@@ -6,7 +6,7 @@ import crypto from 'crypto'
 import { userValidator, getOneUserRequestValidator } from "../validators/user";
 import { validate } from "class-validator";
 
-export async function createUser(req: FastifyRequest, res: FastifyReply) {
+export async function create(req: FastifyRequest, res: FastifyReply) {
     const requestBody = req.body as userValidator
 
     const salt: string = crypto.randomBytes(16).toString('hex')
@@ -51,12 +51,12 @@ export async function createUser(req: FastifyRequest, res: FastifyReply) {
     }
 }
 
-export async function getUsers(req: FastifyRequest, res: FastifyReply) {
+export async function findAll(req: FastifyRequest, res: FastifyReply) {
     const data: Repository<Users> = await getRepository(Users)
     return data.find()
 }
 
-export async function getUser(req: FastifyRequest, res: FastifyReply) {
+export async function findOne(req: FastifyRequest, res: FastifyReply) {
     const data: Repository<Users> = await getRepository(Users)
     const RequestId: number = Number((req.params as getOneUserRequestValidator).userId)
 
@@ -86,7 +86,7 @@ export async function getUser(req: FastifyRequest, res: FastifyReply) {
     return user;
 }
 
-export async function deleteUser(req: FastifyRequest, res: FastifyReply) {
+export async function deleteOne(req: FastifyRequest, res: FastifyReply) {
     const data: Repository<Users> = await getRepository(Users)
     const RequestId: number = Number((req.params as getOneUserRequestValidator).userId)
 
@@ -115,7 +115,7 @@ export async function deleteUser(req: FastifyRequest, res: FastifyReply) {
     return res.status(200).send({"ok": true});
 }
 
-export async function updateUser(req: FastifyRequest, res: FastifyReply) {
+export async function updateOne(req: FastifyRequest, res: FastifyReply) {
     const RequestBody = req.body as userValidator
 
     const RequestId: number = Number((req.params as getOneUserRequestValidator).userId)
