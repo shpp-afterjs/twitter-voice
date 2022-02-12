@@ -2,5 +2,4 @@
 .idea/
 .env
 node_modules
-*.js
 dist
