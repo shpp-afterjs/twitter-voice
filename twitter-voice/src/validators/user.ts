@@ -1,7 +1,7 @@
 import {
     Length,
     IsNotEmpty,
-    IsString, IsEmail, Contains, IsNumber,
+    NotContains, IsString, IsDate, IsEmail, Contains, IsNumber,
 } from 'class-validator';
 
 export class userValidator {
