@@ -40,7 +40,7 @@ export async function signIn(req: FastifyRequest, res: FastifyReply) {
 
     if(!user) {
         return res.status(404).send({
-            error: '404 Not Found'
+            error: 'Not Found'
         })
     }
     const passwordHash = crypto.pbkdf2Sync(password, user.salt, 1000, 60, 'sha512').toString('hex')
@@ -60,7 +60,7 @@ export async function signIn(req: FastifyRequest, res: FastifyReply) {
         })
     }
     return res.status(400).send({
-        error: '400 Bad Request'
+        error: 'Bad Request'
     })
 }
 
@@ -91,7 +91,7 @@ export async function signUp(req: FastifyRequest, res: FastifyReply) {
     const validation = await validate(data)
     if(validation.length) {
         return res.status(400).send({
-            ok: 'false',
+            ok: false,
             errors: validation
         });
     }
@@ -103,7 +103,7 @@ export async function signUp(req: FastifyRequest, res: FastifyReply) {
     })
     if(user) {
         return res.status(409).send({
-            error: '409 Conflict'
+            error: 'Conflict'
         })
     }
     const salt: string = crypto.randomBytes(16).toString('hex')
