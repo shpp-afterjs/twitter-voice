@@ -58,8 +58,8 @@ export async function create(req: FastifyRequest, res: FastifyReply) {
 }
 
 export async function findAll(req: FastifyRequest, res: FastifyReply) {
-    const data: Repository<Users> | Users[] = await getRepository(Users).find()
-    return (data as unknown as Users[]).filter(deletePasswords)
+    const data = await getRepository(Users).find()
+    return data.filter(deletePasswords)
 }
 
 export async function findOne(req: FastifyRequest, res: FastifyReply) {
