@@ -20,7 +20,7 @@ export async function signIn(req: FastifyRequest, res: FastifyReply) {
     data.password = password
 
     const validation = await validate(data)
-    if(validation.length > 0) {
+    if(validation.length) {
         return res.status(400).send({
             ok: 'false',
             errors: validation
@@ -84,7 +84,7 @@ export async function signUp(req: FastifyRequest, res: FastifyReply) {
     data.birthday = birthday
 
     const validation = await validate(data)
-    if(validation.length > 0) {
+    if(validation.length) {
         return res.status(400).send({
             ok: 'false',
             errors: validation
