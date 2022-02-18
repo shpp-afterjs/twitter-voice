@@ -5,14 +5,11 @@ import {authRequestValidator, signupRequestValidator} from "../validators/user";
 import {validate} from "class-validator";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
+import {jwt_payload} from "../interfaces/jwt.interface"
 
 const {
     JWT_SECRET
 } = process.env;
-
-interface jwt_payload {
-    id: number
-}
 
 export async function signIn(req: FastifyRequest, res: FastifyReply) {
     const dataDB: Repository<Users> = await getRepository(Users)
