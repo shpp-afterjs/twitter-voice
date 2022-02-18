@@ -29,8 +29,8 @@ export async function create(req: FastifyRequest, res: FastifyReply) {
 
     const validation = await validate(user)
     if(validation.length > 0) {
-        res.status(400).send({
-            ok: 'false',
+        return res.status(400).send({
+            ok: false,
             errors: validation
         });
     }
@@ -71,8 +71,8 @@ export async function findOne(req: FastifyRequest, res: FastifyReply) {
 
     const validation = await validate(request)
     if(validation.length > 0) {
-        res.status(400).send({
-            ok: 'false',
+        return res.status(400).send({
+            ok: false,
             errors: validation
         });
     }
@@ -84,8 +84,8 @@ export async function findOne(req: FastifyRequest, res: FastifyReply) {
     })
 
     if(!user) {
-        res.status(404).send({
-            ok: 'false',
+        return res.status(404).send({
+            ok: false,
             errors: validation
         })
     }
@@ -102,8 +102,8 @@ export async function deleteOne(req: FastifyRequest, res: FastifyReply) {
 
     const validation = await validate(request)
     if(validation.length > 0) {
-        res.status(400).send({
-            ok: 'false',
+        return res.status(400).send({
+            ok: false,
             errors: validation
         });
     }
@@ -113,8 +113,8 @@ export async function deleteOne(req: FastifyRequest, res: FastifyReply) {
     })
 
     if(!user) {
-        res.status(404).send({
-            ok: 'false',
+        return res.status(404).send({
+            ok: false,
             errors: validation
         })
     }
@@ -141,8 +141,8 @@ export async function updateOne(req: FastifyRequest, res: FastifyReply) {
 
     const validation = await validate(user)
     if(validation.length > 0) {
-        res.status(400).send({
-            ok: 'false',
+        return res.status(400).send({
+            ok: false,
             errors: validation
         });
     }
