@@ -10,7 +10,7 @@ export function authGuard(req: FastifyRequest, res: FastifyReply) {
         console.log(token)
         if(!token) {
             return res.status(401).send({
-                error: '401 Unauthorized'
+                error: 'Unauthorized'
             })
         }
         try {
