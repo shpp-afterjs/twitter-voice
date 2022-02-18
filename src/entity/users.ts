@@ -6,8 +6,9 @@ import {
     CreateDateColumn,
     UpdateDateColumn
 } from "typeorm";
+import {Exclude} from "class-transformer";
 
-@Entity('users')
+@Entity('User')
 export class Users extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;

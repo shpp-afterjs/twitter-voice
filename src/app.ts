@@ -4,10 +4,13 @@ dotenv.config();
 
 import Fastify from "fastify"
 const server = Fastify({logger: true})
-import {routes} from "./routes/users.route";
+import {userRoutes} from "./routes/users.route";
+import {authRoutes} from "./routes/auth.route";
 import {db} from "./config/db.connection";
 
-server.register(routes, { prefix: '/users' })
+server.register(userRoutes, { prefix: '/users' })
+server.register(authRoutes, { prefix: '/auth' })
+
 db().then(() => {
     server.listen(3000);
 })

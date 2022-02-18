@@ -1,13 +1,16 @@
-import * as UserControllers from "../controllers/users.controller";
+import * as AuthControllers from "../controllers/auth.controller";
 import {
     FastifyInstance,
     FastifyServerOptions,
 } from "fastify";
 
 import {authGuard} from "../guards/auth.guard";
+import * as UserControllers from "../controllers/users.controller";
 
-export async function userRoutes (fastify: FastifyInstance, options: FastifyServerOptions) {
-    fastify.post('/', UserControllers.create)
+export async function authRoutes (fastify: FastifyInstance, options: FastifyServerOptions) {
+    fastify.register(require('fastify-express'))
+    fastify.post('/signup' ,AuthControllers.signUp)
+    fastify.post('/signin', AuthControllers.signIn)
     fastify.register(async route => {
         route.addHook('preHandler', async (req, res) => {
             const result = await authGuard(req, res)
@@ -18,10 +21,7 @@ export async function userRoutes (fastify: FastifyInstance, options: FastifyServ
             }
         })
 
-        fastify.delete("/:userId", UserControllers.deleteOne)
-        fastify.put("/:userId", UserControllers.updateOne)
+        route.get('/me', AuthControllers.authMe)
     })
-    fastify.get('/', UserControllers.findAll)
-    fastify.get('/:userId', UserControllers.findOne)
     //there can be more routes
 }

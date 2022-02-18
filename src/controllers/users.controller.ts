@@ -1,59 +1,20 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
+import {FastifyReply, FastifyRequest} from "fastify";
 import {Users} from "../entity/users";
 import {getRepository, Repository} from "typeorm";
 import crypto from 'crypto'
 
-import { userValidator, getOneUserRequestValidator } from "../validators/user";
-import { validate } from "class-validator";
+import {getOneUserRequestValidator, userValidator} from "../validators/user";
 
-export async function create(req: FastifyRequest, res: FastifyReply) {
-    const requestBody = req.body as userValidator
+import {validate} from "class-validator";
 
-    const salt: string = crypto.randomBytes(16).toString('hex')
-
-    let user = new userValidator()
-    user.name = requestBody.name
-    user.lastname = requestBody.lastname
-    user.gender = requestBody.gender
-    user.birthday = requestBody.birthday
-    user.email = requestBody.email
-    user.password = requestBody.password
-    user.salt = salt
-    user.ip = requestBody.ip
-
-    const validation = await validate(user)
-    if(validation.length > 0) {
-        res.status(400).send({
-            ok: 'false',
-            errors: validation
-        });
-    }
-
-    const passwordHash = crypto.pbkdf2Sync(user.password, salt, 1000, 60, 'sha512').toString('hex')
-
-    const request = await getRepository(Users).save({
-        name: user.name,
-        lastname: user.lastname,
-        gender: user.gender,
-        birthday: user.birthday,
-        email: user.email,
-        password: passwordHash,
-        salt: salt,
-        ip: user.ip,
-    });
-
-    return {
-        name: request.name,
-        lastname: request.lastname,
-        gender: request.gender,
-        birthday: request.birthday,
-        email: request.email,
-    }
+function deletePasswords(obj: Users) {
+    delete obj.password
+    return true
 }
 
 export async function findAll(req: FastifyRequest, res: FastifyReply) {
-    const data: Repository<Users> = await getRepository(Users)
-    return data.find()
+    const data = await getRepository(Users).find()
+    return data.filter(deletePasswords)
 }
 
 export async function findOne(req: FastifyRequest, res: FastifyReply) {
@@ -64,9 +25,9 @@ export async function findOne(req: FastifyRequest, res: FastifyReply) {
     request.userId = RequestId
 
     const validation = await validate(request)
-    if(validation.length > 0) {
-        res.status(400).send({
-            ok: 'false',
+    if(validation.length) {
+        return res.status(400).send({
+            ok: false,
             errors: validation
         });
     }
@@ -78,11 +39,12 @@ export async function findOne(req: FastifyRequest, res: FastifyReply) {
     })
 
     if(!user) {
-        res.status(404).send({
-            ok: 'false',
+        return res.status(404).send({
+            ok: false,
             errors: validation
         })
     }
+    delete user?.password
     return user;
 }
 
@@ -94,9 +56,9 @@ export async function deleteOne(req: FastifyRequest, res: FastifyReply) {
     request.userId = RequestId
 
     const validation = await validate(request)
-    if(validation.length > 0) {
-        res.status(400).send({
-            ok: 'false',
+    if(validation.length) {
+        return res.status(400).send({
+            ok: false,
             errors: validation
         });
     }
@@ -106,8 +68,8 @@ export async function deleteOne(req: FastifyRequest, res: FastifyReply) {
     })
 
     if(!user) {
-        res.status(404).send({
-            ok: 'false',
+        return res.status(404).send({
+            ok: false,
             errors: validation
         })
     }
@@ -133,16 +95,16 @@ export async function updateOne(req: FastifyRequest, res: FastifyReply) {
     user.ip = RequestBody.ip
 
     const validation = await validate(user)
-    if(validation.length > 0) {
-        res.status(400).send({
-            ok: 'false',
+    if(validation.length) {
+        return res.status(400).send({
+            ok: false,
             errors: validation
         });
     }
 
     const passwordHash = crypto.pbkdf2Sync(user.password, salt, 1000, 60, 'sha512').toString('hex')
 
-    const request = getRepository(Users).update(
+    await getRepository(Users).update(
         RequestId ,
         {
             name: user.name,
