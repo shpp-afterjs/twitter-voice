@@ -24,7 +24,7 @@ export async function signIn(req: FastifyRequest, res: FastifyReply) {
 
     const validation = await validate(data)
     if(validation.length > 0) {
-        res.status(400).send({
+        return res.status(400).send({
             ok: 'false',
             errors: validation
         });
@@ -88,7 +88,7 @@ export async function signUp(req: FastifyRequest, res: FastifyReply) {
 
     const validation = await validate(data)
     if(validation.length > 0) {
-        res.status(400).send({
+        return res.status(400).send({
             ok: 'false',
             errors: validation
         });
