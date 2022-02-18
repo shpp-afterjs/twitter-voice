@@ -12,51 +12,6 @@ function deletePasswords(obj: Users) {
     return true
 }
 
-export async function create(req: FastifyRequest, res: FastifyReply) {
-    const requestBody = req.body as userValidator
-
-    const salt: string = crypto.randomBytes(16).toString('hex')
-
-    let user = new userValidator()
-    user.name = requestBody.name
-    user.lastname = requestBody.lastname
-    user.gender = requestBody.gender
-    user.birthday = requestBody.birthday
-    user.email = requestBody.email
-    user.password = requestBody.password
-    user.salt = salt
-    user.ip = requestBody.ip
-
-    const validation = await validate(user)
-    if(validation.length > 0) {
-        return res.status(400).send({
-            ok: false,
-            errors: validation
-        });
-    }
-
-    const passwordHash = crypto.pbkdf2Sync(user.password, salt, 1000, 60, 'sha512').toString('hex')
-
-    const request = await getRepository(Users).save({
-        name: user.name,
-        lastname: user.lastname,
-        gender: user.gender,
-        birthday: user.birthday,
-        email: user.email,
-        password: passwordHash,
-        salt: salt,
-        ip: user.ip,
-    });
-
-    return {
-        name: request.name,
-        lastname: request.lastname,
-        gender: request.gender,
-        birthday: request.birthday,
-        email: request.email,
-    }
-}
-
 export async function findAll(req: FastifyRequest, res: FastifyReply) {
     const data = await getRepository(Users).find()
     return data.filter(deletePasswords)
@@ -70,7 +25,7 @@ export async function findOne(req: FastifyRequest, res: FastifyReply) {
     request.userId = RequestId
 
     const validation = await validate(request)
-    if(validation.length > 0) {
+    if(validation.length) {
         return res.status(400).send({
             ok: false,
             errors: validation
@@ -101,7 +56,7 @@ export async function deleteOne(req: FastifyRequest, res: FastifyReply) {
     request.userId = RequestId
 
     const validation = await validate(request)
-    if(validation.length > 0) {
+    if(validation.length) {
         return res.status(400).send({
             ok: false,
             errors: validation
@@ -140,7 +95,7 @@ export async function updateOne(req: FastifyRequest, res: FastifyReply) {
     user.ip = RequestBody.ip
 
     const validation = await validate(user)
-    if(validation.length > 0) {
+    if(validation.length) {
         return res.status(400).send({
             ok: false,
             errors: validation
