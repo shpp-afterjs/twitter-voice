@@ -8,7 +8,12 @@ import jwt from "jsonwebtoken";
 import {jwt_payload} from "../interfaces/jwt.interface"
 
 const {
-    JWT_SECRET
+    JWT_SECRET,
+    JWT_EXPIN,
+    JWT_ISS,
+    JWT_SUB,
+    JWT_AUD,
+    JWT_NOTBEFORE
 } = process.env;
 
 export async function signIn(req: FastifyRequest, res: FastifyReply) {
@@ -43,11 +48,11 @@ export async function signIn(req: FastifyRequest, res: FastifyReply) {
         const token = jwt.sign({
             id: user.id
         }, JWT_SECRET || '', {
-            expiresIn: '24h',
-            issuer: 'twitter-voice',
-            subject: 'auth_token',
-            audience: 'users',
-            notBefore: '30'
+            expiresIn: JWT_EXPIN,
+            issuer: JWT_ISS,
+            subject: JWT_SUB,
+            audience: JWT_AUD,
+            notBefore: JWT_NOTBEFORE
         })
 
         return res.send({
