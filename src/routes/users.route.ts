@@ -13,7 +13,7 @@ export async function userRoutes (fastify: FastifyInstance, options: FastifyServ
             const result = await authGuard(req, res)
             if(!result) {
                 return res.status(401).send({
-                    error: '401 Unauthorized (Invalid Token)'
+                    error: 'Unauthorized (Invalid Token)'
                 })
             }
         })
