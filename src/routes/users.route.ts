@@ -18,10 +18,10 @@ export async function userRoutes (fastify: FastifyInstance, options: FastifyServ
             }
         })
 
-        route.get('/', UserControllers.findAll)
+        fastify.delete("/:userId", UserControllers.deleteOne)
+        fastify.put("/:userId", UserControllers.updateOne)
     })
+    fastify.get('/', UserControllers.findAll)
     fastify.get('/:userId', UserControllers.findOne)
-    fastify.delete("/:userId", UserControllers.deleteOne)
-    fastify.put("/:userId", UserControllers.updateOne)
     //there can be more routes
 }
